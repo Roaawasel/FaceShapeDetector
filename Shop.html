@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <title>Face Shape Detector</title>
+    <style> 
+            
+        header {
+            background-color: #F5F5F5;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        nav ul li a {
+            color: hsl(161, 40%, 20%);
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h1, h2 {
+            color: hsl(161, 40%, 20%);
+            text-align: center;
+        }
+
+        button {
+            background-color: hsl(161, 40%, 20%);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: hsl(161, 40%, 20%);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .glass {
+            display: inline-block;
+            margin: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            width: 200px;
+        }
+
+        .glass img {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .glass h2 {
+            margin-top: 10px;
+        }
+
+        .glass p {
+            margin-top: 5px;
+            color: #666;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #shoppingCart {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        #cartItems {
+            list-style: none;
+            padding: 0;
+        }
+
+        #cartItems li {
+            margin-bottom: 5px;
+        }
+
+        #totalPrice {
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Face Shape Detector</h1>
+        <nav>
+            <ul>
+                <li><a href="Home.html">Home</a></li>
+                <li><a href="Shop.html">Shops</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <div class="filters">
+                <label for="brand">Brand:</label>
+                <select id="brand">
+                    <option value="all">All</option>
+                    <option value="ray-ban">Ray-Ban</option>
+                    <option value="giorgio-armani">Giorgio Armani</option>
+                    <option value="dior">Dior</option>
+                </select>
+
+                <label for="price">Price:</label>
+                <select id="price">
+                    <option value="all">All</option>
+                    <option value="under-100">$100 and under</option>
+                    <option value="100-200">$100 - $200</option>
+                    <option value="over-200">Over $200</option>
+                </select>
+            </div>
+
+            <p style="font-size: 12px; text-align: center;">Showing <span id="itemCount">3</span> of <span id="totalItemCount">3</span></p>
+
+            <div class="container">
+                <div class="glass" data-brand="ray-ban" data-price="100">
+                    <img src="glass1.jpg" alt="Glass 1 - Ray-Ban Junior" />
+                    <h2>Ray-Ban Junior</h2>
+                    <p>$100</p>
+                    <button class="addToCartButton">Add to Cart</button>
+                    <button>Try it</button>
+                </div>
+                <div class="glass" data-brand="giorgio-armani" data-price="150">
+                    <img src="glass2.jpg" alt="Glass 2 - Giorgio Armani" />
+                    <h2>Giorgio Armani</h2>
+                    <p>$150</p>
+                    <button class="addToCartButton">Add to Cart</button>
+                    <button>Try it</button>
+                    </div>
+                <div class="glass" data-brand="dior" data-price="250">
+                    <img src="glass3.jpg" alt="Glass 3 - Dior" />
+                    <h2>Dior</h2>
+                    <p>$250</p>
+                    <button class="addToCartButton">Add to Cart</button>
+                    <button>Try it</button>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div id="shoppingCart">
+                <h2>Shopping Cart</h2>
+                <ul id="cartItems"></ul>
+                <p id="totalPrice">Total: $0</p>
+                <button id="checkoutButton">Checkout</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Face Shape Detector. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const brandFilter = document.getElementById('brand');
+        const priceFilter = document.getElementById('price');
+        const glassesContainer = document.querySelector('.container');
+        const itemCount = document.getElementById('itemCount');
+        const totalItemCount = document.getElementById('totalItemCount');
+        const cartItems = document.getElementById('cartItems');
+        const totalPrice = document.getElementById('totalPrice');
+        const checkoutButton = document.getElementById('checkoutButton');
+        let cart = [];
+
+        brandFilter.addEventListener('change', filterGlasses);
+        priceFilter.addEventListener('change', filterGlasses);
+
+        function filterGlasses() {
+            const selectedBrand = brandFilter.value;
+            const selectedPrice = priceFilter.value;
+
+            let visibleCount = 0;
+            Array.from(glassesContainer.getElementsByClassName('glass')).forEach(glass => {
+                const brand = glass.getAttribute('data-brand');
+                const price = parseInt(glass.getAttribute('data-price'));
+                const brandMatch = selectedBrand === 'all' || selectedBrand === brand;
+                const priceMatch = selectedPrice === 'all' || (selectedPrice === 'under-100' && price <= 100) || (selectedPrice === '100-200' && price > 100 && price <= 200) || (selectedPrice === 'over-200' && price > 200);
+
+                if (brandMatch && priceMatch) {
+                    glass.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    glass.classList.add('hidden');
+                }
+            });
+
+            itemCount.textContent = visibleCount;
+            totalItemCount.textContent = glassesContainer.getElementsByClassName('glass').length;
+        }
+
+        function addToCart(glass) {
+            const glassName = glass.querySelector('h2').textContent;
+            const glassPrice = glass.querySelector('p').textContent;
+            const item = { name: glassName, price: parseFloat(glassPrice.substr(1)) };
+            cart.push(item);
+            updateCart();
+        }
+
+        function updateCart() {
+            cartItems.innerHTML = '';
+            let total = 0;
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+                cartItems.appendChild(li);
+                total += item.price;
+            });
+            totalPrice.textContent = `Total: $${total.toFixed(2)}`;
+        }
+
+        Array.from(document.getElementsByClassName('glass')).forEach(glass => {
+            const addToCartButton = glass.querySelector('.addToCartButton');
+            addToCartButton.addEventListener('click', () => {
+                addToCart(glass);
+            });
+        });
+
+        checkoutButton.addEventListener('click', () => {
+            // Perform checkout process here
+            alert('Checkout process initiated.');
+        });
+    </script>
+</body>
+</html>

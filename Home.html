@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Face Shape Detector</title>
+    <style>
+        header {
+            background-color: #F5F5F5;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+            nav ul li {
+                display: inline;
+                margin-right: 10px;
+            }
+
+                nav ul li a {
+                    color: hsl(161, 40%, 20%);
+                    text-decoration: none;
+                }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h1, h2 {
+            color: hsl(161, 40%, 20%);
+            text-align: center;
+        }
+
+        button {
+            background-color: hsl(161, 40%, 20%);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        .button {
+            background-color: hsl(161, 40%, 20%);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 13.5px;
+        }
+        footer {
+            background-color: hsl(161, 40%, 20%);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        .quiz-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+          }
+          .question {
+            margin-bottom: 10px;
+          }
+          .options label {
+            display: block;
+            margin-bottom: 5px;
+          }
+          .submit-btn {
+            margin-top: 10px;
+          }
+          .result {
+            font-weight: bold;
+            margin-top: 20px;
+          }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Face Shape Detector</h1>
+        <nav>
+            <ul>
+                <li><a href="Home.html">Home</a></li>
+                <li><a href="Shop.html">Shops</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>About Face Shape Detector</h2>
+            <p>Face Shape Detector is a virtual try-on tool that allows you to try out different glasses styles before making a decision. With our advanced face detection technology, you can see how different glasses would look on you.</p>
+        </section>
+
+        <section>
+            <h2>Find Celebrities</h2>
+            <p>Curious to know which celebrities share similar facial features with you? Use our fun feature to find out your celebrity look-alikes and discover your star connections.</p>
+            <img src="celebrities.jpg" alt="Celebrities" width="800" height="500">
+                <h1>Find Your Celebrity Lookalike</h1>
+                <div class="question">
+                  <p>Question 1: What is the shape of your face?</p>
+                  <div class="options">
+                    <label><input type="radio" name="q1" value="oval"> Oval</label>
+                    <label><input type="radio" name="q1" value="round"> Round</label>
+                    <label><input type="radio" name="q1" value="square"> Square</label>
+                    <label><input type="radio" name="q1" value="heart"> Heart</label>
+                  </div>
+                </div>
+                <div class="question">
+                  <p>Question 2: What is the width of your forehead?</p>
+                  <div class="options">
+                    <label><input type="radio" name="q2" value="narrow"> Narrow</label>
+                    <label><input type="radio" name="q2" value="average"> Average</label>
+                    <label><input type="radio" name="q2" value="wide"> Wide</label>
+                  </div>
+                </div>
+                <div class="question">
+                  <p>Question 3: What is the shape of your jawline?</p>
+                  <div class="options">
+                    <label><input type="radio" name="q3" value="pointed"> Pointed</label>
+                    <label><input type="radio" name="q3" value="rounded"> Rounded</label>
+                    <label><input type="radio" name="q3" value="square"> Square</label>
+                  </div>
+                </div>
+                <button class="submit-btn" onclick="calculateResults()">Submit</button>
+                <div class="result">
+                  <h2>Result:</h2>
+                  <p id="result-text"></p>
+                </div>
+              </div>
+        </section>
+
+        <section>
+            <h2>Try Glasses</h2>
+            <p>Discover a wide range of glasses styles and virtually try them on to find the perfect fit. Whether you're looking for sunglasses or prescription glasses, we've got you covered.</p>
+            <img src="glasses.jpg" alt="Glasses" width="800" height="500"><br>
+            <button>Start Trying Glasses</button>
+        </section>
+
+        <section>
+            <h2>Shops</h2>
+            <p>Explore a wide range of eyewear options from our partner shops. Find the perfect pair of glasses that suits your style and face shape.</p>            
+            <a href="Shop.html" class="button">Discover Shops</a>
+        </section>
+
+  <script>
+    function calculateResults() {
+        const answer1 = document.querySelector('input[name="q1"]:checked').value;
+        const answer2 = document.querySelector('input[name="q2"]:checked').value;
+        const answer3 = document.querySelector('input[name="q3"]:checked').value;
+      
+        let resultText = '';
+      
+        if (answer1 === 'oval' && answer2 === 'narrow' && answer3 === 'pointed') {
+          resultText = 'Your celebrity lookalike is Angelina Jolie!';
+        } else if (answer1 === 'round' && answer2 === 'average' && answer3 === 'rounded') {
+          resultText = 'Your celebrity lookalike is Emma Watson!';
+        } else if (answer1 === 'square' && answer2 === 'wide' && answer3 === 'square') {
+          resultText = 'Your celebrity lookalike is Chris Hemsworth!';
+        } else if (answer1 === 'oval' && answer2 === 'average' && answer3 === 'rounded') {
+          resultText = 'Your celebrity lookalike is Natalie Portman!';
+        } else if (answer1 === 'round' && answer2 === 'wide' && answer3 === 'pointed') {
+          resultText = 'Your celebrity lookalike is Leonardo DiCaprio!';
+        } else if (answer1 === 'heart' && answer2 === 'wide' && answer3 === 'rounded') {
+          resultText = 'Your celebrity lookalike is Jennifer Lawrence!';
+        } else {
+          resultText = 'Sorry, we could not find a celebrity lookalike for you.';
+        }
+      
+        document.getElementById("result-text").textContent = resultText;
+      }
+  </script>
+    </main>
+   
+    <footer>
+        <p>&copy; 2022 Face Shape Detector. All rights reserved.</p>
+    </footer>
+</body>
+</html>
